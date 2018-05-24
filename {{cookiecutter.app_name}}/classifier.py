@@ -40,6 +40,7 @@ URL = "http://mlr.cs.umass.edu/ml/machine-learning-databases/spambase/spambase.d
 from pandas import read_table
 import numpy as np
 import matplotlib.pyplot as plt
+import mlinstrumentation
 
 try:
     # [OPTIONAL] Seaborn makes plots nicer
@@ -277,6 +278,9 @@ if __name__ == '__main__':
     print("Downloading data from {}".format(URL))
     frame = download_data()
 
+    # start the instrumentation
+    mlinstrumentation.start()
+
     # Process data into feature and label arrays
     print("Processing {} samples with {} attributes".format(len(frame.index), len(frame.columns)))
     X_train, X_test, y_train, y_test = get_features_and_labels(frame)
@@ -284,6 +288,9 @@ if __name__ == '__main__':
     # Evaluate multiple classifiers on the data
     print("Evaluating classifiers")
     results = list(evaluate_classifier(X_train, X_test, y_train, y_test))
+
+    # end the instrumentation
+    mlinstrumentation.stop()
 
     # Display the results
     print("Plotting the results")
